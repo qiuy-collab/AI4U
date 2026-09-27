@@ -605,12 +605,88 @@
   }
   .doc-body img {
     margin-block: var(--space-xs);
-    margin-inline: auto; /* 居中：图片统一缩小，纵向排列（不再整行占满） */
+    margin-inline: auto; /* 居中：单张图统一缩小，不再整行占满 */
     max-width: min(100%, 34rem); /* 桌面 ≈56rem 栏宽的 60%；窄屏自动回到 100% */
     height: auto;
     border: 1px solid var(--border-strong);
     border-radius: 0.75rem;
   }
+
+  /* 图集：正文里「连续排列的多张图」折叠成一张主图 + 右上角缩略图切换，
+     不再逐张纵向铺开。结构由 components/ui/DocGallery.tsx 客户端注入；
+     未启用 JS 时下面这些规则不命中，正文保持原样（图片照常逐张显示）。 */
+  .doc-body .doc-gallery {
+    position: relative;
+    /* 与 .doc-body img 的限宽保持一致，figure 才正好等于图片宽度，
+       缩略图条才能贴住图片右上角（而不是飘到栏宽右侧的空白里） */
+    width: min(100%, 34rem);
+    margin-inline: auto;
+    margin-block: var(--space-xs);
+  }
+  .doc-body .doc-gallery__slide {
+    display: none;
+    width: 100%;
+    max-width: none;
+    height: auto;
+    margin: 0;
+    border: 1px solid var(--border-strong);
+    border-radius: 0.75rem;
+  }
+  .doc-body .doc-gallery__slide.is-active { display: block; }
+
+  .doc-body .doc-gallery__thumbs {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 2;
+    display: flex;
+    gap: 0.3rem;
+    padding: 0.28rem;
+    background: color-mix(in oklab, var(--paper-0) 86%, transparent);
+    border: 1px solid var(--border);
+    border-radius: 0.55rem;
+    backdrop-filter: blur(6px);
+  }
+  .doc-body .doc-gallery__thumb {
+    display: block;
+    width: 3rem;
+    height: 2rem;
+    padding: 0;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--paper-0);
+    border: 1px solid var(--border-strong);
+    border-radius: 0.35rem;
+    opacity: 0.6;
+    transition: opacity var(--dur-fast) var(--ease-out-expo),
+      border-color var(--dur-fast) var(--ease-out-expo);
+  }
+  .doc-body .doc-gallery__thumb img {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    object-fit: cover;
+    object-position: top center;
+  }
+  .doc-body .doc-gallery__thumb.is-active {
+    opacity: 1;
+    border-color: var(--accent-deep);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .doc-body .doc-gallery__thumb:hover { opacity: 0.92; }
+  }
+  .doc-body .doc-gallery__thumb:focus-visible {
+    opacity: 1;
+    outline: 2px solid var(--focus);
+    outline-offset: 1px;
+  }
+  @media (max-width: 780px) {
+    .doc-body .doc-gallery__thumb { width: 2.4rem; height: 1.7rem; }
+  }
+
   .doc-body strong { font-weight: 750; }
   .doc-body del { color: var(--text-muted); }
   .doc-body hr { border: 0; border-top: 1px solid var(--border-strong); margin-block: var(--space-m); }
