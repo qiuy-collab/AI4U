@@ -606,10 +606,11 @@
   .doc-body img {
     margin-block: var(--space-xs);
     margin-inline: auto; /* 居中：单张图统一缩小，不再整行占满 */
-    max-width: min(100%, 34rem); /* 桌面 ≈56rem 栏宽的 60%；窄屏自动回到 100% */
+    max-width: min(100%, 44rem); /* 桌面 ≈56rem 栏宽的 78%；窄屏自动回到 100% */
     height: auto;
     border: 1px solid var(--border-strong);
     border-radius: 0.75rem;
+    cursor: zoom-in; /* 点击可放大（components/ui/DocZoom.tsx） */
   }
 
   /* 图集：正文里「连续排列的多张图」折叠成一张主图 + 右上角缩略图切换，
@@ -619,7 +620,7 @@
     position: relative;
     /* 与 .doc-body img 的限宽保持一致，figure 才正好等于图片宽度，
        缩略图条才能贴住图片右上角（而不是飘到栏宽右侧的空白里） */
-    width: min(100%, 34rem);
+    width: min(100%, 44rem);
     margin-inline: auto;
     margin-block: var(--space-xs);
   }
@@ -680,8 +681,11 @@
     outline-offset: 1px;
   }
   /* 正文栏窄到放不下「图片右侧一列」时降级：缩略图移到主图下方外侧
-     （仍不遮挡图片），改为横排省纵向空间 */
-  @media (max-width: 1040px) {
+     （仍不遮挡图片），改为横排省纵向空间。
+     断点随主图限宽由 34rem 提到 44rem 而上移：44rem 主图居中后，
+     两侧各自只剩 (栏宽-704px)/2，低于 ~90px 时竖排一列会压到右侧目录，
+     故 <1240px 一律走下方横排 */
+  @media (max-width: 1240px) {
     .doc-body .doc-gallery__thumbs {
       position: static;
       flex-direction: row;
@@ -692,6 +696,53 @@
   }
   @media (max-width: 780px) {
     .doc-body .doc-gallery__thumb { width: 4rem; height: 2.7rem; }
+  }
+
+  /* 图片放大预览：点击正文图片后，由 components/ui/DocZoom.tsx 注入到 body 直下的全屏浮层。
+     挂在 body 下（不在页面容器里），因此不受 .page-enter 动画 transform 的影响 */
+  .doc-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 120;
+    display: flex;
+    overflow: auto; /* 图大于视口时可滚动查看，不做二次缩小 */
+    overscroll-behavior: contain;
+    padding: clamp(0.5rem, 2vw, 3rem);
+    background: color-mix(in srgb, var(--ink-0) 90%, transparent);
+    cursor: zoom-out;
+  }
+  .doc-lightbox__img {
+    display: block;
+    flex: 0 0 auto;
+    /* auto 外边距：小于视口时居中；大于视口时归零、从左上开始可滚动
+       （align-items:center 在溢出时会把顶部裁掉，不能用） */
+    margin: auto;
+    max-width: 100%; /* 上限是「容器可用宽」，不是自然尺寸——1440 下长边截图能显示到接近原始像素 */
+    width: auto;
+    height: auto;
+    border: 0;
+    border-radius: 0.75rem;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+    cursor: default;
+  }
+  .doc-lightbox__close {
+    /* fixed 而非 absolute：浮层可滚动，关闭钮要始终钉在视口角上 */
+    position: fixed;
+    top: clamp(0.75rem, 2vw, 1.5rem);
+    right: clamp(0.75rem, 2vw, 1.5rem);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    padding: 0.6em 1em;
+    min-height: 44px;
+    color: var(--paper-0);
+    background: rgba(21, 21, 21, 0.72);
+    border: 1px solid rgba(244, 240, 232, 0.36);
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .doc-lightbox__close:hover { background: var(--ink-0); border-color: var(--paper-0); }
   }
 
   .doc-body strong { font-weight: 750; }

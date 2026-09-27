@@ -5,6 +5,7 @@ import { DOCS, getAdjacent, getDoc } from "@/content/docs";
 import type { TocItem } from "@/content/docs";
 import CodeCopy from "@/components/ui/CodeCopy";
 import DocGallery from "@/components/ui/DocGallery";
+import DocZoom from "@/components/ui/DocZoom";
 import TocSpy from "@/components/ui/TocSpy";
 
 /** 两级目录列表（H2 章 + H3 节缩进），桌面侧栏与移动端抽屉共用 */
@@ -86,6 +87,8 @@ export default async function DocPage({
         <CodeCopy />
         {/* 连续多图折叠成图集：一张主图 + 右上角缩略图切换（components/ui/DocGallery.tsx） */}
         <DocGallery />
+        {/* 点击图片放大预览（components/ui/DocZoom.tsx） */}
+        <DocZoom />
         <nav className="doc-adjacent" aria-label="上一篇下一篇">
           {prev ? (
             <Link href={`/docs/${prev.slug}`} rel="prev">← 上一篇：{prev.title}</Link>
