@@ -2,15 +2,11 @@
 
 <img src="public/og.png" alt="AI4U · AI for You —— 把 AI 用成日常" width="100%" />
 
-把 AI 用成日常
-
-一伙人自己在维护的 AI 交流社区
-
 &nbsp;
 
-![开始阅读](https://img.shields.io/badge/%E5%BC%80%E5%A7%8B%E9%98%85%E8%AF%BB-AI4U-f05a28?style=for-the-badge&labelColor=111214)
-
-![内容目录：4 篇教程](https://img.shields.io/badge/%E5%86%85%E5%AE%B9%E7%9B%AE%E5%BD%95-4%20%E7%AF%87%E6%95%99%E7%A8%8B-151515?style=for-the-badge&labelColor=f05a28)
+<p align="center">
+  <img src="https://img.shields.io/badge/开始阅读-AI4U-f05a28?style=for-the-badge&labelColor=111214" alt="开始阅读" />&nbsp;&nbsp;<img src="https://img.shields.io/badge/内容目录-4%20篇教程-151515?style=for-the-badge&labelColor=f05a28" alt="内容目录：4 篇教程" />
+</p>
 
 ## 这是什么
 
