@@ -52,7 +52,7 @@ export default function DocGallery() {
       figure.setAttribute("role", "group");
       figure.setAttribute(
         "aria-label",
-        `图片组，共 ${imgs.length} 张，用右上角的缩略图切换`,
+        `图片组，共 ${imgs.length} 张，用缩略图切换`,
       );
 
       const stage = document.createElement("div");

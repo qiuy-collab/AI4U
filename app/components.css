@@ -635,11 +635,14 @@
   .doc-body .doc-gallery__slide.is-active { display: block; }
 
   .doc-body .doc-gallery__thumbs {
+    /* 放在主图「外侧」：紧贴图片右边缘、与顶边对齐，竖排一列——
+       对应视觉上的「图片右上角之外」，不再压住图片本身的内容 */
     position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
+    top: 0;
+    left: calc(100% + 0.55rem);
     z-index: 2;
     display: flex;
+    flex-direction: column;
     gap: 0.3rem;
     padding: 0.28rem;
     background: color-mix(in oklab, var(--paper-0) 86%, transparent);
@@ -682,6 +685,18 @@
     opacity: 1;
     outline: 2px solid var(--focus);
     outline-offset: 1px;
+  }
+  /* 正文栏窄到放不下「图片右侧一列」时降级：缩略图移到主图下方外侧
+     （仍不遮挡图片），改为横排省纵向空间 */
+  @media (max-width: 1040px) {
+    .doc-body .doc-gallery__thumbs {
+      position: static;
+      flex-direction: row;
+      justify-content: flex-end;
+      width: fit-content;
+      margin: 0.5rem 0 0 auto;
+      backdrop-filter: none;
+    }
   }
   @media (max-width: 780px) {
     .doc-body .doc-gallery__thumb { width: 2.4rem; height: 1.7rem; }
