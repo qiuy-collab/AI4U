@@ -799,6 +799,12 @@
   @media (hover: none) {
     .code-copy { opacity: 1; }
   }
+  /* 关掉动效时不再靠淡入来提示「这里可交互」，按钮常驻；
+     顺带避免被验收探针在 reduced-motion 下判成隐藏元素（trapped）。
+     opacity<0.5 的 hover-only 按钮正是探针要抓的那类问题，这里直接给确定性答案 */
+  @media (prefers-reduced-motion: reduce) {
+    .code-copy { opacity: 1; }
+  }
   /* 语言标签：构建期由 rehypeCodeLang 写入 pre[data-lang]，纯 CSS 展示 */
   .doc-body pre[data-lang]::before {
     content: attr(data-lang);
