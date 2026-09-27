@@ -605,8 +605,11 @@
   }
   .doc-body img {
     margin-block: var(--space-xs);
+    margin-inline: auto; /* 居中：图片统一缩小，纵向排列（不再整行占满） */
+    max-width: min(100%, 34rem); /* 桌面 ≈56rem 栏宽的 60%；窄屏自动回到 100% */
     height: auto;
     border: 1px solid var(--border-strong);
+    border-radius: 0.75rem;
   }
   .doc-body strong { font-weight: 750; }
   .doc-body del { color: var(--text-muted); }
