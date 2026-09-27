@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { DOCS, getAdjacent, getDoc } from "@/content/docs";
 import type { TocItem } from "@/content/docs";
 import CodeCopy from "@/components/ui/CodeCopy";
+import DocGallery from "@/components/ui/DocGallery";
 import TocSpy from "@/components/ui/TocSpy";
 
 /** 两级目录列表（H2 章 + H3 节缩进），桌面侧栏与移动端抽屉共用 */
@@ -83,6 +84,8 @@ export default async function DocPage({
         <div className="doc-body" dangerouslySetInnerHTML={{ __html: doc.html }} />
         {/* 代码块「复制」按钮：客户端注入（components/ui/CodeCopy.tsx） */}
         <CodeCopy />
+        {/* 连续多图折叠成图集：一张主图 + 右上角缩略图切换（components/ui/DocGallery.tsx） */}
+        <DocGallery />
         <nav className="doc-adjacent" aria-label="上一篇下一篇">
           {prev ? (
             <Link href={`/docs/${prev.slug}`} rel="prev">← 上一篇：{prev.title}</Link>
