@@ -98,7 +98,13 @@
     color: var(--text);
     font-family: var(--font-body);
     font-size: var(--text-base);
+    /* sticky footer：内容不足一屏时把深色 footer 压到视口底部，
+       多出来的空间留给 main（也就是「黑色底部上方」），
+       而不是在页面最下方露出一条纸白空白 */
+    display: flex;
+    flex-direction: column;
   }
+  #main { flex: 1 0 auto; }
   ::selection { background: var(--accent); color: var(--accent-on); }
   :root { accent-color: var(--accent); caret-color: var(--accent); }
   a { text-underline-offset: 0.18em; text-decoration-thickness: from-font; }
